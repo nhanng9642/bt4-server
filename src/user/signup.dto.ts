@@ -6,4 +6,7 @@ export default class SignUpDto {
 
     @IsNotEmpty({message: "Please enter a password"})
     password: string;
+
+    @IsNotEmpty({message: "Please enter a confirm password"})
+    confirmPassword: String;
 }
