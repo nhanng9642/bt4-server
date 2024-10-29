@@ -4,9 +4,10 @@ import { ValidationPipe } from '@nestjs/common';
 import { MongoExceptionFilter } from './exceptions/mongodbException.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new MongoExceptionFilter());
-  await app.listen(process.env.PORT ?? 3000);
-}
+    const app = await NestFactory.create(AppModule);
+    app.enableCors();
+    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalFilters(new MongoExceptionFilter());
+    await app.listen(process.env.PORT ?? 3000);
+    }
 bootstrap();
