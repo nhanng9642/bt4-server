@@ -10,10 +10,10 @@ export class ApiExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const {statusCode, message, timestamp} = exception;
 
-    console.log(1, new Date().toISOString());
+    console.error(exception);
 
+    const { message = 'Internal Server Error', statusCode = 500, timestamp = Date.now() } = exception;
     response
         .status(statusCode)
         .json({

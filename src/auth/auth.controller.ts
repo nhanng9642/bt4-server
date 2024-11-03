@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { Body, Post } from '@nestjs/common';
 import SignUpDto  from '../user/signup.dto';
 import { LoginDto } from 'src/user/login.dto';
-import { ApiExceptionFilter } from 'src/exceptions/httpException.filter';
+import { ApiExceptionFilter } from 'src/exceptions/api.exception.filter';
 
 @Controller('user')
 @UseFilters(ApiExceptionFilter)

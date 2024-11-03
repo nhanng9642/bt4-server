@@ -35,4 +35,8 @@ export class UserService {
     async findByEmail(email: string) {
         return this.userModel.findOne({email});
     }
+
+    async getProfile(user : any) {
+        return user;
+    }
 }

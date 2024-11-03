@@ -3,8 +3,9 @@ import { UserService } from 'src/user/user.service';
 import SignUpDto from 'src/user/signup.dto';
 import { LoginDto } from 'src/user/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import ExistedEmailError from 'src/exceptions/ExistedEmailError';
-import bcrypt from 'bcrypt';
+import { NotFoundUserWithEmail } from '../exceptions/not-found-user-with-email';
+import * as bcrypt from 'bcrypt';
+import PasswordNotCorrect from 'src/exceptions/password-not-correct';
 
 @Injectable()
 export class AuthService {
@@ -24,18 +25,17 @@ export class AuthService {
         const user = await this.userService.findByEmail(email);
 
         if (!user) {
-            throw new ExistedEmailError();
+            throw new NotFoundUserWithEmail(email);
         }
 
         if (!await bcrypt.compare(password, user.password)) {
-            throw new Error('Password is not correct');
+            throw new PasswordNotCorrect();
         }
         
         const token = await this.jwtService.signAsync({email});
-
+            
         return {
-            user,
-            token
+            accessToken: token,
         }
     }
 }
