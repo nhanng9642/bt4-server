@@ -5,11 +5,9 @@ import { Model } from 'mongoose';
 import SignUpDto from './signup.dto';
 import * as bcrypt from 'bcrypt';
 import ExistedEmailError from '../exceptions/ExistedEmailError';
-import { HttpExceptionFilter } from 'src/exceptions/httpException.filter';
 import { RegisterResponse } from './register.response';
 
 @Injectable()
-@UseFilters(new HttpExceptionFilter() )
 export class UserService {
     constructor(@InjectModel(User.name) private userModel : Model<User>) {}
 
@@ -23,15 +21,18 @@ export class UserService {
         const salt = 10;
         const hashPassword = await bcrypt.hash(password, salt);
 
-        const existedUser = await this.userModel.findOne({ email });
+        const existedUser = await this.findByEmail(email);
         if (existedUser) {
-            throw new ExistedEmailError('Email already exists');
+            throw new ExistedEmailError();
         }
 
         const user = new this.userModel({ email, password: hashPassword });
-
         user.save();
 
         return new RegisterResponse(email);
+    }
+
+    async findByEmail(email: string) {
+        return this.userModel.findOne({email});
     }
 }
