@@ -12,7 +12,6 @@ export class AuthService {
     constructor(
         private readonly userService: UserService,
         private readonly jwtService: JwtService
-    
     ) {}
 
     async signUp(signUpDto : SignUpDto) {
@@ -35,7 +34,12 @@ export class AuthService {
         const token = await this.jwtService.signAsync({email});
             
         return {
+            success: true,
             accessToken: token,
+            message: 'Login successfully',
+            user: {
+                email: user.email
+            }
         }
     }
 }

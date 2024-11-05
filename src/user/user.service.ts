@@ -37,6 +37,10 @@ export class UserService {
     }
 
     async getProfile(user : any) {
-        return user;
+        return {
+            user,
+            message: 'Get profile successfully',
+            success: true
+        };
     }
 }

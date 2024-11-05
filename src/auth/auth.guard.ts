@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
         const authorization = request.headers['authorization'];
 
         if (!authorization) {
-            throw new UnauthorizedError('Acces token not found');
+            throw new UnauthorizedError('Access token not found');
         }
 
         const token = authorization.replace('Bearer ', '');
